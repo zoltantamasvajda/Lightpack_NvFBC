@@ -314,8 +314,9 @@ void SettingsWindow::connectSignalsSlots()
 #ifdef WINAPI_GRAB_SUPPORT
 	connect(ui->radioButton_GrabWinAPI, &QRadioButton::toggled, this, &SettingsWindow::onGrabberChanged);
 #endif
-#ifdef DDUPL_GRAB_SUPPORT
-	connect(ui->radioButton_GrabDDupl, &QRadioButton::toggled, this, &SettingsWindow::onGrabberChanged);
+#ifdef NVFBC_GRAB_SUPPORT
+	connect(ui->radioButton_GrabNvFBC, &QRadioButton::toggled, this, &SettingsWindow::onGrabberChanged);
+	connect(ui->spinBox_NvFBCDownscaleFactor, &QRadioButton::toggled, this, &SettingsWindow::onDownscaleFactor_valueChanged(int));
 #endif
 #ifdef X11_GRAB_SUPPORT
 	connect(ui->radioButton_GrabX11, &QRadioButton::toggled, this, &SettingsWindow::onGrabberChanged);
@@ -842,6 +843,11 @@ void SettingsWindow::initGrabbersRadioButtonsVisibility()
 #ifndef DDUPL_GRAB_SUPPORT
 	ui->radioButton_GrabDDupl->setVisible(false);
 #endif
+#ifndef NVFBC_GRAB_SUPPORT
+	ui->radioButton_GrabNvFBC->setVisible(false);
+	ui->label_NvFBCDownscaleFactor->setVisible(false);
+	ui->spinBox_NvFBCDownscaleFactor->setVisible(false);
+#endif
 #ifndef D3D10_GRAB_SUPPORT
 	ui->checkBox_EnableDx1011Capture->setVisible(false);
 	ui->checkBox_EnableDx9Capture->setVisible(false);
@@ -1338,6 +1344,12 @@ void SettingsWindow::onMinimumLumosity_toggled(bool value)
 	DEBUG_LOW_LEVEL << Q_FUNC_INFO << value;
 
 	Settings::setMinimumLuminosityEnabled(ui->radioButton_MinimumLuminosity->isChecked());
+}
+
+void SettingsWindow::onDownscaleFactor_valueChanged(int value)
+{
+	DEBUG_LOW_LEVEL << Q_FUNC_INFO << value;
+	Settings::setDownscaleFactor(value);
 }
 
 void SettingsWindow::onDeviceRefreshDelay_valueChanged(int value)
@@ -1967,6 +1979,7 @@ void SettingsWindow::updateUiFromSettings()
 	ui->lineEdit_ApiPort->setValidator								(new QIntValidator(1, 49151));
 	ui->lineEdit_ApiKey->setText									(Settings::getApiAuthKey());
 	ui->spinBox_LoggingLevel->setValue								(g_debugLevel);
+	ui->spinBox_NvFBCDownscaleFactor->setValue							(Settings::getDownscaleFactor());
 
 	if (g_debugLevel == Debug::DebugLevels::ZeroLevel) {
 		ui->toolButton_OpenLogs->setEnabled(false);
@@ -1983,6 +1996,11 @@ void SettingsWindow::updateUiFromSettings()
 #ifdef DDUPL_GRAB_SUPPORT
 	case Grab::GrabberTypeDDupl:
 		ui->radioButton_GrabDDupl->setChecked(true);
+		break;
+#endif
+#ifdef NVFBC_GRAB_SUPPORT
+	case Grab::GrabberTypeNvFBC:
+		ui->radioButton_GrabNvFBC->setChecked(true);
 		break;
 #endif
 #ifdef X11_GRAB_SUPPORT
@@ -2032,6 +2050,11 @@ Grab::GrabberType SettingsWindow::getSelectedGrabberType()
 #ifdef DDUPL_GRAB_SUPPORT
 	if (ui->radioButton_GrabDDupl->isChecked()) {
 		return Grab::GrabberTypeDDupl;
+	}
+#endif
+#ifdef NVFBC_GRAB_SUPPORT
+	if (ui->radioButton_GrabNvFBC->isChecked()) {
+		return Grab::GrabberTypeNvFBC;
 	}
 #endif
 #ifdef MAC_OS_AV_GRAB_SUPPORT

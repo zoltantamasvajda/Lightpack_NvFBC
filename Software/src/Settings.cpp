@@ -200,6 +200,8 @@ static const QString IsApplyBlueLightReductionEnabled = QStringLiteral("Grab/IsA
 static const QString IsApplyColorTemperatureEnabled = QStringLiteral("Grab/IsApplyColorTemperatureEnabled");
 static const QString ColorTemperature = QStringLiteral("Grab/ColorTemperature");
 static const QString Gamma = QStringLiteral("Grab/Gamma");
+static const QString DownscaleFactor = QStringLiteral("Grab/DownscaleFactor");
+
 }
 // [MoodLamp]
 namespace MoodLamp
@@ -266,6 +268,8 @@ static const QString D3D9 = QStringLiteral("D3D9");
 static const QString MacCoreGraphics = QStringLiteral("MacCoreGraphics");
 static const QString MacAVFoundation = QStringLiteral("MacAVFoundation");
 static const QString DDupl = QStringLiteral("DDupl");
+static const QString NvFBC = QStringLiteral("NvFBC");
+
 }
 
 } /*Value*/
@@ -1498,6 +1502,19 @@ void Settings::setDeviceGamma(double gamma)
 	emit m_this->deviceGammaChanged(gamma);
 }
 
+int Settings::getDownscaleFactor()
+{
+	return getValidDownscaleFactor(value(Profile::Key::Grab::DownscaleFactor).toInt());
+}
+
+void Settings::setDownscaleFactor(int factor)
+{
+	DEBUG_LOW_LEVEL << Q_FUNC_INFO;
+	setValue(Profile::Key::Grab::DownscaleFactor, getValidDownscaleFactor(factor));
+	m_this->downscaleFactorChanged(factor);
+}
+
+
 bool Settings::isDeviceDitheringEnabled()
 {
 	return value(Profile::Key::Device::IsDitheringEnabled).toBool();
@@ -1535,6 +1552,11 @@ Grab::GrabberType Settings::getGrabberType()
 #ifdef DDUPL_GRAB_SUPPORT
 	if (strGrabber == Profile::Value::GrabberType::DDupl)
 		return Grab::GrabberTypeDDupl;
+#endif
+
+#ifdef NVFBC_GRAB_SUPPORT
+	if (strGrabber == Profile::Value::GrabberType::NvFBC)
+		return Grab::GrabberTypeNvFBC;
 #endif
 
 #ifdef D3D9_GRAB_SUPPORT
@@ -1591,6 +1613,12 @@ void Settings::setGrabberType(Grab::GrabberType grabberType)
 		strGrabber = Profile::Value::GrabberType::DDupl;
 		break;
 
+#endif
+
+#ifdef NVFBC_GRAB_SUPPORT
+	case Grab::GrabberTypeNvFBC:
+		strGrabber = Profile::Value::GrabberType::NvFBC;
+		break;
 #endif
 
 #ifdef D3D9_GRAB_SUPPORT
@@ -1973,6 +2001,16 @@ double Settings::getValidDeviceGamma(double value)
 	return value;
 }
 
+int Settings::getValidDownscaleFactor(int value)
+{
+	if (value < Profile::Grab::DownscaleFactorMin)
+		value = Profile::Grab::DownscaleFactorMin;
+	else if (value > Profile::Grab::DownscaleFactorMax)
+		value = Profile::Grab::DownscaleFactorMax;
+	return value;
+}
+
+
 int Settings::getValidGrabSlowdown(int value)
 {
 	if (value < Profile::Grab::SlowdownMin)
@@ -2113,6 +2151,7 @@ void Settings::initCurrentProfile(bool isResetDefault)
 	setNewOption(Profile::Key::Grab::IsApplyColorTemperatureEnabled,Profile::Grab::IsApplyColorTemperatureEnabledDefault, isResetDefault);
 	setNewOption(Profile::Key::Grab::ColorTemperature,              Profile::Grab::ColorTemperatureDefault, isResetDefault);
 	setNewOption(Profile::Key::Grab::Gamma,                         Profile::Grab::GammaDefault, isResetDefault);
+	setNewOption(Profile::Key::Grab::DownscaleFactor,               Profile::Grab::DownscaleFactorDefault, isResetDefault);
 	// [MoodLamp]
 	setNewOption(Profile::Key::MoodLamp::IsLiquidMode,				Profile::MoodLamp::IsLiquidModeDefault, isResetDefault);
 	setNewOption(Profile::Key::MoodLamp::Color,						Profile::MoodLamp::ColorDefault, isResetDefault);

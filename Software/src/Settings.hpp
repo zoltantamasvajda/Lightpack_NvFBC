@@ -199,6 +199,8 @@ public:
 	static void setDeviceColorDepth(int value);
 	static double getDeviceGamma();
 	static void setDeviceGamma(double gamma);
+	static int getDownscaleFactor();
+	static void setDownscaleFactor(int factor);
 	static bool isDeviceDitheringEnabled();
 	static void setDeviceDitheringEnabled(bool isEnabled);
 
@@ -269,6 +271,7 @@ private:
 	static int getValidDeviceSmooth(int value);
 	static int getValidDeviceColorDepth(int value);
 	static double getValidDeviceGamma(double value);
+	static int getValidDownscaleFactor(int value);
 	static int getValidGrabSlowdown(int value);
 	static int getValidMoodLampSpeed(int value);
 	static int getValidSoundVisualizerLiquidSpeed(int value);
@@ -365,6 +368,7 @@ signals:
 	void deviceSmoothChanged(int value);
 	void deviceColorDepthChanged(int value);
 	void deviceGammaChanged(double gamma);
+	void downscaleFactorChanged(int value);
 	void deviceDitheringEnabledChanged(bool isEnabled);
 	void deviceColorSequenceChanged(QString value);
 	void grabberTypeChanged(const Grab::GrabberType grabMode);
