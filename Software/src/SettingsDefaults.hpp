@@ -190,6 +190,9 @@ static const int ColorTemperatureMax = 10000;
 static const double GammaMin = 0.05;
 static const double GammaDefault = 1.2;
 static const double GammaMax = 10.0;
+static const int DownscaleFactorMin = 1;
+static const int DownscaleFactorDefault = 25;
+static const int DownscaleFactorMax = 100;
 }
 // [MoodLamp]
 namespace MoodLamp
@@ -241,9 +244,6 @@ static const int ColorDepthMax = 255;
 static const double GammaMin = 0.01;
 static const double GammaDefault = 2.0;
 static const double GammaMax = 10.0;
-static const int DownscaleFactorMin = 1;
-static const int DownscaleFactorDefault = 25;
-static const int DownscaleFactorMax = 100;
 
 static const bool IsDitheringEnabledDefault = false;
 }
