@@ -316,7 +316,7 @@ void SettingsWindow::connectSignalsSlots()
 #endif
 #ifdef NVFBC_GRAB_SUPPORT
 	connect(ui->radioButton_GrabNvFBC, &QRadioButton::toggled, this, &SettingsWindow::onGrabberChanged);
-	connect(ui->spinBox_NvFBCDownscaleFactor, &QRadioButton::toggled, this, &SettingsWindow::onDownscaleFactor_valueChanged(int));
+	connect(ui->spinBox_NvFBCDownscaleFactor, &QRadioButton::toggled, this, &SettingsWindow::onDownscaleFactor_valueChanged);
 #endif
 #ifdef X11_GRAB_SUPPORT
 	connect(ui->radioButton_GrabX11, &QRadioButton::toggled, this, &SettingsWindow::onGrabberChanged);

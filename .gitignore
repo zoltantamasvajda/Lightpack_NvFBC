@@ -70,3 +70,4 @@ vc*.pdb
 *~
 Software/.qmake.stash
 .DS_Store
+.vscode
