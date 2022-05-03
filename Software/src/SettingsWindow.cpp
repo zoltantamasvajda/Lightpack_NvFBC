@@ -2128,7 +2128,7 @@ void SettingsWindow::versionsUpdate()
 				"unknown",
 				fimwareVersion,
 				QT_VERSION_STR);
-	versionsTemplate.remove(QRegExp(" \\([^()]+unknown[^()]+\\)"));
+	versionsTemplate.remove(QRegularExpression(" \\([^()]+unknown[^()]+\\)"));
 #endif
 
 	ui->labelVersions->setText( versionsTemplate );
