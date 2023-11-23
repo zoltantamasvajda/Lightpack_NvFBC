@@ -6,7 +6,7 @@ Lightpack project with Prismatik flavour
 ---------
 ![Latest version](https://github.com/zoltantamasvajda/Lightpack_NvFBC/workflows/CI/badge.svg)
 
-*Modified version which includes various improvements for Windows, esp. a Desktop Duplication API Grabber*
+*Modified version (forked in Dec 2014) which includes various improvements for Windows, esp. a Desktop Duplication API Grabber*
 
 **Table of Contents:** <br />
 &nbsp;&nbsp;[Short Description](#lightpack-project-with-prismatik-flavour) <br />
