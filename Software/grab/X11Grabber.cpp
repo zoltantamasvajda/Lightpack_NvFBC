@@ -72,7 +72,7 @@ QList<ScreenInfo> * X11Grabber::screensWithWidgets(QList<ScreenInfo> *result, co
         screen.handle = reinterpret_cast<void *>(handle);
         screen.rect = QRect(xwa.x, xwa.y, xwa.width, xwa.height);
         for (int k = 0; k < grabWidgets.size(); ++k) {
-            if (screen.rect.intersects(grabWidgets[k]->rect())) {
+            if (screen.rect.intersects(grabWidgets[k]->deviceFrameGeometry())) {
                 result->append(screen);
                 break;
             }
