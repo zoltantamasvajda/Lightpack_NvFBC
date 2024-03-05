@@ -66,10 +66,11 @@ Source: "content/prismatik-unhook32.dll"; DestDir: "{app}"; MinVersion: 6.1.7600
 Source: "content/UpdateElevate.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "content/platforms/*"; DestDir: "{app}\platforms"; Flags: ignoreversion
 Source: "content/styles/*"; DestDir: "{app}\styles"; Flags: ignoreversion
+Source: "content/tls/qopensslbackend.dll"; DestDir: "{app}\tls"; Flags: ignoreversion
 Source: "content/Plugins/*"; DestDir: "{#UserSettingsDirName}\Plugins"; Flags: onlyifdoesntexist createallsubdirs recursesubdirs
-; Use ssleay32.dll and libeay32.dll here for OpenSSL < 1.1
-Source: "content/libcrypto-1_1-x64.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "content/libssl-1_1-x64.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Use ssleay32.dll and libeay32.dll here for OpenSSL < 1.1, 1_1 instead of 3 for OpenSSL 1.1
+Source: "content/libcrypto-3-x64.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "content/libssl-3-x64.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; These are needed only when including the bass library for sound visualization
 Source: "content/bass.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "content/basswasapi.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -121,3 +122,31 @@ english.RemoveOnly =(remove only)
 ; Docs link name
 russian.OpenWiki =Открытая документация
 english.OpenWiki =Open documentation
+
+; Docs link name
+russian.IAgree =Я согласен
+english.IAgree =I agree
+
+; https://stackoverflow.com/questions/51290580/on-inno-setup-license-page-replace-checkboxes-by-i-agree-button
+[Code]
+
+procedure InitializeWizard();
+begin
+  // Hide radio buttons and pre-select "accept", to enable "next" button
+  WizardForm.LicenseAcceptedRadio.Checked := True;
+  WizardForm.LicenseAcceptedRadio.Visible := False;
+  WizardForm.LicenseNotAcceptedRadio.Visible := False;
+  WizardForm.LicenseMemo.Height :=
+    WizardForm.LicenseNotAcceptedRadio.Top +
+    WizardForm.LicenseNotAcceptedRadio.Height -
+    WizardForm.LicenseMemo.Top - ScaleY(5);
+end;
+
+procedure CurPageChanged(CurPageID: Integer);
+begin
+  // Dubious, but you have asked for it
+  if CurPageID = wpLicense then
+  begin
+    WizardForm.NextButton.Caption := '&I agree';
+  end;
+end;
