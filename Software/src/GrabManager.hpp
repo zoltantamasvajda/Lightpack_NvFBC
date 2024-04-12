@@ -35,7 +35,7 @@ class TimeEvaluations;
 class D3D10Grabber;
 
 namespace BlueLightReduction { class Client; };
-namespace SystemSession { enum Status; };
+namespace SystemSession { enum Status : int; };
 
 class GrabManager : public QObject
 {

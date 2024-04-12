@@ -42,7 +42,7 @@
 MIDL_INTERFACE("29038f61-3839-4626-91fd-086879011a05") IDXGIAdapter1;
 _COM_SMARTPTR_TYPEDEF(IDXGIAdapter1, __uuidof(IDXGIAdapter1));
 namespace SystemSession {
-	enum Status;
+	enum Status : int;
 };
 enum DDuplGrabberState
 {

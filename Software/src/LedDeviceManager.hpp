@@ -31,7 +31,7 @@
 
 class QTimer;
 namespace SystemSession {
-	enum Status;
+	enum Status : int;
 };
 /*!
 	This class creates \a ILedDevice implementations and manages them after.
