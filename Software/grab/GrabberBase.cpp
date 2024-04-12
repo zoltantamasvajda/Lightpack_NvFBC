@@ -96,15 +96,6 @@ bool GrabberBase::isGrabbingStarted() const
 
 const GrabbedScreen * GrabberBase::screenOfWidget(const GrabWidget& widget) const
 {
-//#ifdef Q_OS_WIN
-//	// Note that in Qt > 6 we can't use rect matching because the widget coords are in a device-independent
-//	// coordinate system while the screen coords are in the physical one.
-//	HMONITOR widgetMonitor = MonitorFromWindow(reinterpret_cast<HWND>(widget.winId()), MONITOR_DEFAULTTONULL);
-//	for (int i = 0; i < _screensWithWidgets.size(); ++i) {
-//		if (_screensWithWidgets[i].screenInfo.handle == widgetMonitor)
-//			return &_screensWithWidgets[i];
-//	}
-//#else
 	QRect rect = widget.deviceFrameGeometry();
 	QPoint center = rect.center();
 	for (int i = 0; i < _screensWithWidgets.size(); ++i) {
@@ -115,7 +106,6 @@ const GrabbedScreen * GrabberBase::screenOfWidget(const GrabWidget& widget) cons
 		if (_screensWithWidgets[i].screenInfo.rect.intersects(rect))
 			return &_screensWithWidgets[i];
 	};
-//#endif
 	return NULL;
 }
 
