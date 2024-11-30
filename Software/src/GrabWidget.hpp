@@ -50,6 +50,8 @@ class GrabWidget : public QWidget
 public:
 	GrabWidget(int id, int features, QList<GrabWidget*> *fellows = NULL, QWidget *parent = 0);
 	virtual ~GrabWidget();
+	// FrameGeometry correcting for High DPI and the QT6 device-independent coordinate system.
+	QRect deviceFrameGeometry() const;
 
 	void saveSizeAndPosition();
 

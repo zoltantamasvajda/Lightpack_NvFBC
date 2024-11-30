@@ -94,18 +94,9 @@ bool GrabberBase::isGrabbingStarted() const
 	return m_timer->isActive();
 }
 
-const GrabbedScreen * GrabberBase::screenOfWidget(const QWidget& widget) const
+const GrabbedScreen * GrabberBase::screenOfWidget(const GrabWidget& widget) const
 {
-#ifdef Q_OS_WIN
-	// Note that in Qt > 6 we can't use rect matching because the widget coords are in a device-independent
-	// coordinate system while the screen coords are in the physical one.
-	HMONITOR widgetMonitor = MonitorFromWindow(reinterpret_cast<HWND>(widget.winId()), MONITOR_DEFAULTTONULL);
-	for (int i = 0; i < _screensWithWidgets.size(); ++i) {
-		if (_screensWithWidgets[i].screenInfo.handle == widgetMonitor)
-			return &_screensWithWidgets[i];
-	}
-#else
-	QRect rect = widget.frameGeometry();
+	QRect rect = widget.deviceFrameGeometry();
 	QPoint center = rect.center();
 	for (int i = 0; i < _screensWithWidgets.size(); ++i) {
 		if (_screensWithWidgets[i].screenInfo.rect.contains(center))
@@ -115,7 +106,6 @@ const GrabbedScreen * GrabberBase::screenOfWidget(const QWidget& widget) const
 		if (_screensWithWidgets[i].screenInfo.rect.intersects(rect))
 			return &_screensWithWidgets[i];
 	};
-#endif
 	return NULL;
 }
 
@@ -161,8 +151,8 @@ void GrabberBase::grab()
 				_context->grabResult->append(qRgb(0,0,0));
 				continue;
 			}
-			const QWidget* widget = _context->grabWidgets->at(i);
-			QRect widgetRect = widget->frameGeometry();
+			const GrabWidget* widget = _context->grabWidgets->at(i);
+			QRect widgetRect = widget->deviceFrameGeometry();
 			getValidRect(widgetRect);
 
 			const GrabbedScreen *grabbedScreen = screenOfWidget(*widget);
@@ -173,17 +163,6 @@ void GrabberBase::grab()
 			}
 			DEBUG_HIGH_LEVEL << Q_FUNC_INFO << Debug::toString(widgetRect);
 			QRect monitorRect = grabbedScreen->screenInfo.rect;
-
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0) && defined(Q_OS_WIN))
-			// Qt6 uses device independent coordinates but our captured image is in device coordinates.
-			// Move the topleft corner from its device-independent position to its pyhsical.
-			QPoint offset = widget->frameGeometry().topLeft() - widget->screen()->geometry().topLeft();
-			offset *= widget->screen()->devicePixelRatio();
-			widgetRect.moveTo(grabbedScreen->screenInfo.rect.topLeft() + offset);
-			widgetRect.setSize(widgetRect.size() * widget->screen()->devicePixelRatio());
-			DEBUG_HIGH_LEVEL << Q_FUNC_INFO << "adjusted: " << Debug::toString(widgetRect);
-#endif
-
 			QRect clippedRect = monitorRect.intersected(widgetRect);
 
 			// Checking for the 'grabme' widget position inside the monitor that is used to capture color

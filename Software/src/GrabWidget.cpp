@@ -112,6 +112,23 @@ GrabWidget::~GrabWidget()
 	delete ui;
 }
 
+
+QRect GrabWidget::deviceFrameGeometry() const
+{
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+	// Qt6 uses device independent coordinates but our captured image is in device coordinates.
+	// Move an scale the rect from its device-independent position to its pyhsical.
+	QPoint widgetTopLeft = frameGeometry().topLeft();
+	QPoint screenTopLeft = screen()->geometry().topLeft();
+	QPoint offset = widgetTopLeft - screenTopLeft;
+	QRect adjustedRect(offset * screen()->devicePixelRatio(), frameGeometry().size() * screen()->devicePixelRatio());
+	DEBUG_HIGH_LEVEL << Q_FUNC_INFO << "adjusted: " << Debug::toString(adjustedRect);
+	return adjustedRect;
+#else
+	return frameGeometry();
+#endif
+}
+
 void GrabWidget::closeEvent(QCloseEvent *event)
 {
 	qWarning() << Q_FUNC_INFO << "event->type():" << event->type() << "Id:" << m_selfId;
