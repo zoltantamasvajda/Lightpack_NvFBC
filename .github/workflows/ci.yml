@@ -155,7 +155,7 @@ jobs:
       - name: Build
         shell: cmd
         run: |
-          set QTDIR=%Qt6_Dir%
+          set QTDIR=%QT_ROOT_DIR%
           call scripts\win32\generate_sln.bat
           MSBuild.exe Lightpack.sln /p:Configuration=Release
       - name: Prepare Installer
