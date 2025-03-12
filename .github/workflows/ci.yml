@@ -106,7 +106,7 @@ jobs:
       - run: choco install --no-progress openssl
       - uses: ilammy/msvc-dev-cmd@v1
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           cache: true
           cache-key-prefix: install-qt-action-default
