@@ -95,7 +95,7 @@ jobs:
           name: ${{ env.PKG_NAME }}
           path: ${{ env.PKG_PATH }}
   build-flatpack:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     name: Flatpack Build
     steps:
       - name: Checkout Source
