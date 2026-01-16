@@ -36,8 +36,8 @@ DEFINES += $${SUPPORTED_GRABBERS}
 # Linux/UNIX platform
 unix:!macx {
     contains(DEFINES, X11_GRAB_SUPPORT) {
-        GRABBERS_HEADERS += include/X11Grabber.hpp
-        GRABBERS_SOURCES += X11Grabber.cpp
+        GRABBERS_HEADERS += include/X11Grabber.hpp include/PipewireGrabber.hpp
+        GRABBERS_SOURCES += X11Grabber.cpp PipewireGrabber.cpp
     }
 }
 

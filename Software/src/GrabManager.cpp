@@ -36,6 +36,7 @@
 #include "WinAPIGrabber.hpp"
 #include "DDuplGrabber.hpp"
 #include "X11Grabber.hpp"
+#include "PipewireGrabber.hpp"
 #include "MacOSCGGrabber.hpp"
 #include "MacOSAVGrabber.h"
 #include "D3D10Grabber.hpp"
@@ -659,6 +660,7 @@ void GrabManager::initGrabbers()
 
 #ifdef X11_GRAB_SUPPORT
 	m_grabbers[Grab::GrabberTypeX11] = initGrabber(new X11Grabber(NULL, m_grabberContext));
+	m_grabbers[Grab::GrabberTypePipewire] = initGrabber(new PipewireGrabber(NULL, m_grabberContext));
 #endif
 
 #ifdef MAC_OS_CG_GRAB_SUPPORT

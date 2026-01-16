@@ -264,6 +264,7 @@ static const QString QtEachWidget = QStringLiteral("QtEachWidget");
 static const QString WinAPI = QStringLiteral("WinAPI");
 static const QString WinAPIEachWidget = QStringLiteral("WinAPIEachWidget");
 static const QString X11 = QStringLiteral("X11");
+static const QString Pipewire = QStringLiteral("Pipewire");
 static const QString D3D9 = QStringLiteral("D3D9");
 static const QString MacCoreGraphics = QStringLiteral("MacCoreGraphics");
 static const QString MacAVFoundation = QStringLiteral("MacAVFoundation");
@@ -1567,6 +1568,8 @@ Grab::GrabberType Settings::getGrabberType()
 #ifdef X11_GRAB_SUPPORT
 	if (strGrabber == Profile::Value::GrabberType::X11)
 		return Grab::GrabberTypeX11;
+	if (strGrabber == Profile::Value::GrabberType::Pipewire)
+		return Grab::GrabberTypePipewire;
 #endif
 
 #ifdef MAC_OS_CG_GRAB_SUPPORT
@@ -1630,6 +1633,9 @@ void Settings::setGrabberType(Grab::GrabberType grabberType)
 #ifdef X11_GRAB_SUPPORT
 	case Grab::GrabberTypeX11:
 		strGrabber = Profile::Value::GrabberType::X11;
+		break;
+	case Grab::GrabberTypePipewire:
+		strGrabber = Profile::Value::GrabberType::Pipewire;
 		break;
 #endif
 

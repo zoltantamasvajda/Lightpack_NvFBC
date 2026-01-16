@@ -2007,6 +2007,9 @@ void SettingsWindow::updateUiFromSettings()
 	case Grab::GrabberTypeX11:
 		ui->radioButton_GrabX11->setChecked(true);
 		break;
+	case Grab::GrabberTypePipewire:
+		ui->radioButton_GrabPipewire->setChecked(true);
+		break;
 #endif
 #ifdef MAC_OS_AV_GRAB_SUPPORT
 	case Grab::GrabberTypeMacAVFoundation:
@@ -2040,6 +2043,9 @@ Grab::GrabberType SettingsWindow::getSelectedGrabberType()
 #ifdef X11_GRAB_SUPPORT
 	if (ui->radioButton_GrabX11->isChecked()) {
 		return Grab::GrabberTypeX11;
+	}
+	else if (ui->radioButton_GrabPipewire->isChecked()) {
+		return Grab::GrabberTypePipewire;
 	}
 #endif
 #ifdef WINAPI_GRAB_SUPPORT

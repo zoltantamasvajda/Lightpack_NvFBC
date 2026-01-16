@@ -208,13 +208,10 @@ unix:!macx{
 
         defined(PULSEAUDIO_LIB_DIR, var) {
             LIBS += -L$${PULSEAUDIO_LIB_DIR}
-            QMAKE_POST_LINK += $(INSTALL_PROGRAM) "$${PULSEAUDIO_LIB_DIR}/libpulse.so.0" $(DESTDIR)
-            QMAKE_POST_LINK += $(INSTALL_PROGRAM) "$${PULSEAUDIO_LIB_DIR}/libpulsecommon-13.0.so" $(DESTDIR)
         }
 
         defined(PULSEAUDIO_LIB_DIR, var) {
             LIBS += -L$${FFTW3_LIB_DIR}
-            QMAKE_POST_LINK += $(INSTALL_PROGRAM) "$${FFTW3_LIB_DIR}/libfftw3f.so.3" $(DESTDIR)
         }
 
         LIBS += -lpulse -lfftw3f

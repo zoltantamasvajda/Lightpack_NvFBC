@@ -2731,6 +2731,13 @@ Internally emulates the effects of f.lux, redshift, Night Light, Night Shift...<
                 </widget>
                </item>
                <item>
+                <widget class="QRadioButton" name="radioButton_GrabPipewire">
+                 <property name="text">
+                  <string>Pipewire (Full screen)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QRadioButton" name="radioButton_GrabMacCoreGraphics">
                  <property name="text">
                   <string>Mac CG (Full screen)</string>

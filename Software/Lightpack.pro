@@ -37,6 +37,7 @@ SUBDIRS = src
 SUBDIRS += math grab
 src.depends = math grab
 
+unix:!macx:SUBDIRS += proxyPipewire
 win32:SUBDIRS += libraryinjector hooks unhook tests
 contains(QMAKE_TARGET.arch, x86_64) {
     SUBDIRS += offsetfinder hooks32 unhook32

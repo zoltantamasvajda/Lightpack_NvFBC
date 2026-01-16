@@ -73,6 +73,7 @@ enum GrabberType {
 	GrabberTypeMacAVFoundation,
 	GrabberTypeDDupl,
 	GrabberTypeNvFBC,
+	GrabberTypePipewire,
 
 	GrabbersCount,
 
