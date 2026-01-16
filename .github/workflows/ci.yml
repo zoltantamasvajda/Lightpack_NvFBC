@@ -23,6 +23,7 @@ jobs:
           cache-key-prefix: install-qt-action-default
           version: 6.*
           modules: qtserialport
+          extras: '--timeout 60'
       - name: Cached Bass
         id: cache-bass
         uses: actions/cache@v4
@@ -92,7 +93,7 @@ jobs:
           name: ${{ env.PKG_NAME }}
           path: ${{ env.PKG_PATH }}
   build-flatpack:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     name: Flatpack Build
     steps:
       - name: Checkout Source
